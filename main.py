@@ -5,10 +5,12 @@ class RavenSmasher:
         super().__init__()
     
     def findStrings(self, path):
+        """
+        Function for finding strings of a spefic path, who aren't in cleanStrings
+        """
         r = []
         for string in re.findall("[a-zA-Z0-9]+",str(open("/Users/nojo/Downloads/Raven.jar","rb").read())):
-            if string not in cleanstrings:
-                r.append(string)
+            if string not in cleanstrings: r.append(string)
         return r
 
 if __name__ == "__main__":
