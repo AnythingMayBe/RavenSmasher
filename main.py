@@ -9,7 +9,7 @@ class RavenSmasher:
         Function for finding strings of a spefic path, who aren't in cleanStrings
         """
         r = []
-        for string in re.findall("[a-zA-Z0-9]+",str(open("/Users/nojo/Downloads/Raven.jar","rb").read())):
+        for string in re.findall("[a-zA-Z0-9]+",str(open(path,"rb").read())):
             if string not in cleanstrings: r.append(string)
         return r
 
