@@ -1,7 +1,8 @@
 import re
 from cleanStrings import cleanstrings
-from traces import strings
+from traces import strings, signatures
 import time
+import hashlib
 import sys
 
 class RavenSmasher:
@@ -35,12 +36,31 @@ class RavenSmasher:
             if string in strings.strings: r["detected"] += 1
             if string not in cleanstrings: r["tested"] += 1
         return r
+    
+    def md5Signatures(self, path):
+        fileObj = open(path, 'rb')
+        hash = hashlib.md5()
+        while True:
+            file = fileObj.read(8096)
+            if not file:
+                break
+            hash.update(file)
+        if hash.hexdigest() in signatures.md5:
+            return hash.hexdigest()
 
 if __name__ == "__main__":
     smasher = RavenSmasher()
+    t = time.time()
+    
+    # Check MD5 Signature
+    print("----- Singnatures -----")
+    result = smasher.md5Signatures(sys.argv[1])
+    if result != None:
+        print("Flagged MD5 Signature. I recommend you to ban the player without any doubt.")
+    print("------------------------")
 
     # Scan a mod
-    t = time.time()
+    print("------- Strings --------")
     try:
         result = smasher.stringsMod(sys.argv[1])
     except IndexError:
@@ -53,4 +73,4 @@ if __name__ == "__main__":
     elif per > 60: print("Highly Suspicious. I would recommend you to check the file with a decompiler.")
     elif per > 20: print("Suspicious. I would recommend you to check the file with a decompiler.")
     else: print("Probably Clean, if you think something isn't good, you can check with a decompiler.")
-    
+    print("------------------------")
