@@ -47,6 +47,17 @@ class RavenSmasher:
             hash.update(file)
         if hash.hexdigest() in signatures.md5:
             return hash.hexdigest()
+    
+    def sha512Signatures(self, path):
+        fileObj = open(path, 'rb')
+        hash = hashlib.sha512()
+        while True:
+            file = fileObj.read(8096)
+            if not file:
+                break
+            hash.update(file)
+        if hash.hexdigest() in signatures.sha512:
+            return hash.hexdigest()
 
 if __name__ == "__main__":
     smasher = RavenSmasher()
@@ -67,6 +78,9 @@ if __name__ == "__main__":
     result = smasher.md5Signatures(sys.argv[1])
     if result != None:
         print("Flagged MD5 Signature. I recommend you to ban the player without any doubt.")
+    result = smasher.sha512Signatures(sys.argv[1])
+    if result != None:
+        print("Flagged SHA512 Signature. I recommend you to ban the player without any doubt.")
     print("------------------------")
 
     # Scan a mod
