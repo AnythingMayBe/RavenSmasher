@@ -52,6 +52,16 @@ if __name__ == "__main__":
     smasher = RavenSmasher()
     t = time.time()
     
+    # Check args
+    try:
+        with open(sys.argv[1], 'r') as file: file.close()
+    except IndexError:
+        print("Please specify a mod to check in the program arguments.")
+        exit(-1)
+    except FileNotFoundError:
+        print("Please specify a correct file in arguments.")
+        exit(-1)
+
     # Check MD5 Signature
     print("----- Singnatures -----")
     result = smasher.md5Signatures(sys.argv[1])
