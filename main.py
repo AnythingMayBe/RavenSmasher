@@ -38,3 +38,19 @@ class RavenSmasher:
 
 if __name__ == "__main__":
     smasher = RavenSmasher()
+
+    # Scan a mod
+    t = time.time()
+    try:
+        result = smasher.stringsMod(sys.argv[1])
+    except IndexError:
+        print("Please specify the mod path to find.")
+        exit(-1)
+    per = result["detected"] / result["tested"] * 100
+    print("Scan Ended. Took " + str(time.time() - t)  + "seconds.")
+    print(str(per) + "% of strings detected (" + str(result["detected"] + "/" + str(result["tested"])))
+    if per > 95: print("Detected. I would recommend you to ban the player")
+    elif per > 60: print("Highly Suspicious. I would recommend you to check the file with a decompiler.")
+    elif per > 20: print("Suspicious. I would recommend you to check the file with a decompiler.")
+    else: print("Probably Clean, if you think something isn't good, you can check with a decompiler.")
+    
